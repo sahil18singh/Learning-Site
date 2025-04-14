@@ -11,7 +11,7 @@ const SubSection = require("../models/SubSection");
 //createCourse handler function
 exports.createCourse = async (req,res)=>{
     try {
-        console.log("hi.....");
+        
 		// Get user ID from request object
 		const userId = req.user.id;
 
