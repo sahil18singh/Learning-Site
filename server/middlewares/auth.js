@@ -21,7 +21,7 @@ exports.auth = async (req,res,next)=>{
         //verify the token
         try{
             const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log("decode=",decode);
+           // console.log("decode=",decode);
             req.user = decode;
         }
         catch(error){
@@ -76,7 +76,8 @@ exports.isInstructor = async (req,res,next)=>{
             });
         }
         
-       console.log("instructor hu.....");
+      // console.log("instructor hu.....");
+       
         next();
     }
     catch(error){
@@ -91,6 +92,7 @@ exports.isInstructor = async (req,res,next)=>{
 //isAdmin
 exports.isAdmin = async (req,res,next)=>{
     try{
+        //console.log("admin...");
         if(req.user.accountType !== "Admin"){
             return res.status(401).json({
                 success:false,
