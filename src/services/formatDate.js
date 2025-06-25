@@ -3,6 +3,7 @@ export const formatDate = (dateString) => {
     const date = new Date(dateString)
     const formattedDate = date.toLocaleDateString("en-US", options)
   
+    
     const hour = date.getHours()
     const minutes = date.getMinutes()
     const period = hour >= 12 ? "PM" : "AM"
