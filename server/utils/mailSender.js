@@ -13,15 +13,16 @@ const mailSender = async (email, title, body) => {
             // },
 
 
-            host: "smtp.gmail.com",
+            host: process.env.MAIL_HOST,
             auth: {
-                user: "sahilsingh1892007@gmail.com",
-                pass: "iavgaalbmmmbmobt",
+                user: process.env.MAIL_USER ,
+                // pass: "iavgaalbmmmbmobt",
+                pass: process.env.MAIL_PASS
             },
         });
     
         let info = await transporter.sendMail({
-            from: 'StudyNotion || CodeHelp - by Babbar',
+            from: 'Learning-Site',
             to:`${email}`,
             subject: `${title}`,
             html: `${body}`,
