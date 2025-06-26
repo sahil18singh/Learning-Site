@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { apiConnector } from '../services/apiconnector';
@@ -19,7 +19,9 @@ const Catalog = () => {
     const fetchSublinks = async ()=>{
         try{
             const result = await apiConnector("GET",categories.CATEGORIES_API);
-            const category_id = result.data.data.filter((item)=>item.name===Catalog.catalog)[0]._id;
+            console.log("result: ",result);
+            const category_id = result.data.data.filter((item)=>item.name===Catalog.catalog)[0]._id
+            console.log("category_id: ",category_id);
             setcategoryID(category_id);
             setDesc(result.data.data.filter((item)=>item.name===Catalog.catalog)[0]);
         }
@@ -45,7 +47,7 @@ const Catalog = () => {
 
   return (
     <div>
-        <div className='box-content bg-richblack-800 px-4'>
+        <div className='box-content bg-richblack-800 px-4 text-white'>
             <div className='mx-auto flex flex-col min-h-[260px] justify-center gap-4'>
                 <p className='text-sm text-richblack-300'>Home / Catalog / <span className='text-yellow-25'>{Catalog.catalog}</span></p>
                 <p className='text-3xl text-richblack-5'>{Catalog.catalog}</p>
@@ -54,7 +56,7 @@ const Catalog = () => {
         </div>
 
         <div className=' mx-auto box-content w-full max-w-maxContentTab px-2 py-12 lg:max-w-maxContent'>
-        <h2 className='section_heading mb-6 md:text-3xl text-xl'>
+        <h2 className='section_heading mb-6 md:text-3xl text-xl text-white'>
         Courses to get you started
         </h2>
         <CourseSlider Courses={CatalogPageData?.selectedCourses}/>        
@@ -62,7 +64,7 @@ const Catalog = () => {
 
 
       <div className=' mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent'>
-        <h2 className='section_heading mb-6 md:text-3xl text-xl'>
+        <h2 className='section_heading mb-6 md:text-3xl text-xl text-white'>
           Similar to {Catalog.catalog}
         </h2>
         <CourseSlider Courses={CatalogPageData?.differentCourses}/>
@@ -70,7 +72,7 @@ const Catalog = () => {
 
 
       <div className=' mx-auto box-content w-full max-w-maxContentTab px-2 py-12 lg:max-w-maxContent'>
-        <h2 className='section_heading mb-6 md:text-3xl text-xl'>
+        <h2 className='section_heading mb-6 md:text-3xl text-xl text-white'>
           Frequently BoughtTogether
           </h2>
           <div className='grid grid-cols-2 gap-3 lg:gap-6 lg:grid-cols-2 pr-4'>

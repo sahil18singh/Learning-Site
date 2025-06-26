@@ -17,7 +17,7 @@ export const getCatalogPageData = async(categoryId,dispatch)=>{
     }
     catch(error){
         console.log("CATALOG PAGE DATA API ERROR....", error);
-        toast.error("No Course added to this category yet");
+        toast.error("No course found");
         result = error.response?.data;
     }
     dispatch(setProgress(100));
