@@ -142,34 +142,34 @@ export async function deleteAccount(token,dispatch,navigate){
 
 //get instructor dashboard
 export async function getInstructorDashboard(token,dispatch){
-  // const toastId = toast.loading("Loading...");
-  dispatch(setProgress(30));
-  let result = []
-  try {
-    console.log("BEFORE Calling BACKEND API FOR INSTRUCTOR DASHBOARD");
-    const response = await apiConnector(
-      "GET",
-      'http://localhost:4000/api/v1/profile//instructorDashboard',
-      null,
-      {
-        Authorisation: `Bearer ${token}`,
+    // const toastId = toast.loading("Loading...");
+    dispatch(setProgress(30));
+    let result = []
+    try {
+      console.log("BEFORE Calling BACKEND API FOR INSTRUCTOR DASHBOARD");
+      const response = await apiConnector(
+        "GET",
+        'http://localhost:4000/api/v1/profile//instructorDashboard',
+        null,
+        {
+          Authorisation: `Bearer ${token}`,
+        }
+      )
+      //console.log("AFTER Calling BACKEND API FOR INSTRUCTOR DASHBOARD");
+      console.log(
+        "GET_INSTRUCTOR_DASHBOARD_API API RESPONSE............",
+        response
+      )
+  
+      if (!response.data.success) {
+        throw new Error(response.data.message)
       }
-    )
-    console.log("AFTER Calling BACKEND API FOR INSTRUCTOR DASHBOARD");
-    // console.log(
-    //   "GET_INSTRUCTOR_DASHBOARD_API API RESPONSE............",
-    //   response
-    // )
-
-    if (!response.data.success) {
-      throw new Error(response.data.message)
+      result = response.data.data;
+    } catch (error) {
+      console.log("GET_INSTRUCTOR_DASHBOARD_API API ERROR............", error)
+      toast.error("Could Not Get Instructor Dashboard")
     }
-    result = response.data.data;
-  } catch (error) {
-    console.log("GET_INSTRUCTOR_DASHBOARD_API API ERROR............", error)
-    toast.error("Could Not Get Instructor Dashboard")
+    dispatch(setProgress(100));
+    // toast.dismiss(toastId)
+    return result
   }
-  dispatch(setProgress(100));
-  // toast.dismiss(toastId)
-  return result
-}
