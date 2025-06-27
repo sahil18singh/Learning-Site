@@ -57,7 +57,15 @@ const Navbar = () => {
         {/* Logo */}
         <div>
           <Link to="/">
-            <img src={Logo} alt="logo" width={40} height={8} className='rounded-full' />
+            <img
+  src={Logo}
+  alt="logo"
+  width={150}
+  height={30}
+  className="p-2 rounded-full shadow-lg bg-blue-700 transition-all duration-300 hover:shadow-xl"
+/>
+
+
           </Link>
         </div>
 
@@ -72,9 +80,9 @@ const Navbar = () => {
                     <BsChevronDown />
 
                     {/* Dropdown */}
-                    <div className="invisible absolute z-[1000] flex flex-col w-[200px] lg:w-[300px] bg-richblack-5 p-4 text-richblack-900 rounded-lg opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:visible left-1/2 -translate-x-1/2 top-[120%] shadow-md">
+                    <div className="invisible absolute z-[1000] flex flex-col w-[200px] lg:w-[300px] bg-richblack-300 p-4 text-richblack-900 rounded-lg opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:visible left-1/2 -translate-x-1/2 top-[120%] shadow-md">
                       {/* Arrow */}
-                      <div className="absolute rotate-45 h-4 w-4 bg-richblack-5 top-[1px] left-1/2 -translate-x-1/2 -z-10"></div>
+                      <div className="absolute rotate-45 h-4 w-4 bg-richblack-300 top-[1px] left-1/2 -translate-x-1/2 -z-10"></div>
 
                       {loading ? (
                         <p className="text-center text-black">Loading...</p>
