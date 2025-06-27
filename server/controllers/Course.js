@@ -302,68 +302,78 @@ exports.editCourse = async(req,res)=>{
 
 
 //get full course details
-exports.getFullCourseDetails = async (req,res)=>{
-    try{
-        const {courseId} = req.body
-        const userId = req.user.id
-        const courseDetails = await Course.findOne({
-            _id:courseId,
-        }) 
-            .populate({
-                path:"instructor",
-                populate:{
-                    path:"additionalDetails",
-                },
-            })
-            .populate("category")
-            .populate("ratingAndReviews")
-            .populate({
-                path:"courseContent",
-                populate:{
-                    path:"subSection",
-                },
-            })
-            .exec()
+exports.getFullCourseDetails = async (req, res) => {
+	try {
+	  const { courseId } = req.body
+	  const userId = req.user.id
+	  const courseDetails = await Course.findOne({
+		_id: courseId,
+	  })
+		.populate({
+		  path: "instructor",
+		  populate: {
+			path: "additionalDetails",
+		  },
+		})
+		.populate("category")
+		.populate("ratingAndReviews")
+		.populate({
+		  path: "courseContent",
+		  populate: {
+			path: "subSection",
+		  },
+		})
+		.exec()
 
-            let courseProgressCount = await CourseProgress.findOne({
-                courseId:courseId,
-                userId:userId,
-            })
-            console.log("courseprogressCount :",courseProgressCount)
-
-            if(!courseDetails){
-                return res.status(400).json({
-                    success:false,
-                    message:`Could not find course with id: ${courseId}`
-                })
-            }
-
-            let totalDurationInSeconds = 0
-            courseDetails.courseContent.forEach((content)=>{
-                content.subSection.forEach((subSection)=>{
-                    const timeDurationInSeconds = parseInt(subSection.timeDuration)
-                    totalDurationInSeconds+=timeDurationInSeconds;
-                })
-            })
-
-            const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
-
-            return res.status(200).json({
-                success:true,
-                data:{
-                    courseDetails,
-                    totalDuration,
-                    completedVideos: courseProgressCount?.completedVideos ?? ["none"],
-                },
-            })
-    }
-    catch(error){
-        return res.status(500).json({
-            success:false,
-            message:error.message,
-        })
-    }
-}
+		
+	  let courseProgressCount = await CourseProgress.findOne({
+		courseID: courseId,
+		userID: userId,
+	  })
+  
+	  console.log("courseProgressCount : ", courseProgressCount)
+  
+	  if (!courseDetails) {
+		return res.status(400).json({
+		  success: false,
+		  message: `Could not find course with id: ${courseId}`,
+		})
+	  }
+  
+	  // if (courseDetails.status === "Draft") {
+	  //   return res.status(403).json({
+	  //     success: false,
+	  //     message: `Accessing a draft course is forbidden`,
+	  //   });
+	  // }
+  
+	  let totalDurationInSeconds = 0
+	  courseDetails.courseContent.forEach((content) => {
+		content.subSection.forEach((subSection) => {
+		  const timeDurationInSeconds = parseInt(subSection.timeDuration)
+		  totalDurationInSeconds += timeDurationInSeconds;
+		})
+	  })
+  
+	  const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+  
+	  return res.status(200).json({
+		success: true,
+		data: {
+		  courseDetails,
+		  totalDuration,
+		  completedVideos: courseProgressCount?.completedVideos
+			? courseProgressCount?.completedVideos
+			: ["none"],
+		},
+	  })
+	} catch (error) {
+	  return res.status(500).json({
+		success: false,
+		message: error.message,
+	  })
+	}
+  }
 
 //Delete Course
 exports.deleteCourse = async (req,res)=>{
