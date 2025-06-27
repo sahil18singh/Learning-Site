@@ -10,6 +10,7 @@ import { sendOtp } from '../../services/operations/authAPI'
 import { setProgress } from '../../slices/loadingBarSlice'
 
 const SignupForm = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)
@@ -34,30 +35,37 @@ const SignupForm = () => {
     }))
   }
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match")
-      return
+      toast.error("Passwords do not match");
+      return;
     }
-
+  
     const signupData = {
-      ...formData, accountType,
+      ...formData,
+      accountType,
+    };
+  
+    dispatch(setSignupData(signupData));
+  
+    try {
+      setLoading(true); // Start loading
+      await dispatch(sendOtp(formData.email, navigate));
+    } finally {
+      setLoading(false); // Always stop loading
     }
-
-    dispatch(setSignupData(signupData))
-    dispatch(sendOtp(formData.email, navigate))
-
+  
     setFormData({
       firstName: "",
       lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
-    })
-    setAccountType(ACCOUNT_TYPE.STUDENT)
-  }
-
+    });
+    setAccountType(ACCOUNT_TYPE.STUDENT);
+  };
+  
   const tabData = [
     { id: 1, tabName: "Student", type: ACCOUNT_TYPE.STUDENT },
     { id: 2, tabName: "Instructor", type: ACCOUNT_TYPE.INSTRUCTOR },
@@ -157,13 +165,20 @@ const SignupForm = () => {
             </label>
           </div>
 
-          <button
-            type="submit"
-            onClick={() => dispatch(setProgress(60))}
-            className="mt-4 rounded-md bg-yellow-50 py-2 font-semibold text-richblack-900 hover:bg-yellow-100 transition-all duration-200"
-          >
-            Create Account
-          </button>
+           <button type="submit"
+          disabled={loading}
+          className="mt-4 flex items-center justify-center gap-2 rounded-md bg-yellow-50 py-2 font-semibold text-richblack-900 hover:bg-yellow-100 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {loading ? (
+            <>
+              <span className="loader-border h-4 w-4 animate-spin rounded-full border-2 border-t-yellow-900 border-b-transparent" />
+              Processing...
+            </>
+          ) : (
+            "Create Account"
+          )}
+</button>
+
         </form>
       </div>
     </div>
