@@ -93,7 +93,7 @@ exports.signUp = async (req,res)=>{
             })
         }
 
-        //2 password match karlo
+        //2 password match
         if(password!==confirmPassword){
             return res.status(400).json({
                 success:false,
@@ -241,12 +241,14 @@ exports.changePassword = async (req,res)=>{
 
 		// Get old password, new password, and confirm new password from req.body
 		const { oldPassword, newPassword, confirmNewPassword } = req.body;
-        console.log("confir   ",confirmNewPassword)
-		// Validate old password
-		// const isPasswordMatch = await bcrypt.compare(
-		// 	oldPassword,
-		// 	userDetails.password
-		// );
+
+        //console.log("confir   ",confirmNewPassword)
+		
+        // Validate old password
+		const isPasswordMatch = await bcrypt.compare(
+			oldPassword,
+			userDetails.password
+		);
 		if(oldPassword === newPassword){
 			return res.status(400).json({
 				success: false,
@@ -254,12 +256,12 @@ exports.changePassword = async (req,res)=>{
 			});
 		}
 		
-		// if (!isPasswordMatch) {
-		// 	// If old password does not match, return a 401 (Unauthorized) error
-		// 	return res
-		// 		.status(401)
-		// 		.json({ success: false, message: "The password is incorrect" });
-		// }
+		if (!isPasswordMatch) {
+			// If old password does not match, return a 401 (Unauthorized) error
+			return res
+				.status(401)
+				.json({ success: false, message: "The password is incorrect" });
+		}
 
 		// Match new password and confirm new password
 		if (newPassword !== confirmNewPassword) {
@@ -302,9 +304,9 @@ exports.changePassword = async (req,res)=>{
 		}
 
 		// Return success response
-		return res
-			.status(200)
-			.json({ success: true, message: "Password updated successfully" });
+		return res.status(200).json({ 
+            success: true,
+            message: "Password updated successfully" });
 	} catch (error) {
 		// If there's an error updating the password, log the error and return a 500 (Internal Server Error) error
 		console.error("Error occurred while updating password:", error);
