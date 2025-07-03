@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const Course = require("../models/Course");
@@ -11,8 +11,7 @@ exports.updateProfile = async (req,res)=>{
 		const { dateOfBirth, about, contactNumber,firstName,lastName,gender } = req.body;
        // console.log("dob  ",dateOfBirth);
 		const id = req.user.id;
-            console.log("about  ",about);
-		// Find the profile by id
+        console.log("about  ",about);
 		const userDetails = await User.findById(id);
 		const profile = await Profile.findById(userDetails.additionalDetails);
 
@@ -24,7 +23,7 @@ exports.updateProfile = async (req,res)=>{
 		profile.gender=gender || profile.gender;
 		profile.contactNumber = contactNumber || profile.contactNumber;
 
-		// Save the updated profile
+	
 		await profile.save();
 		await userDetails.save();
 
@@ -45,40 +44,45 @@ exports.updateProfile = async (req,res)=>{
 
 
 //delete account
-//Explore -> how can we schedule this deletion operation
-exports.deleteAccount = async (req,res)=>{
-    try{
-        //get id
-        const id = req.user.id
-        //validation
-        const user= await User.findById(id);
-        
-        if(!user){
-            return res.status(404).json({
-                success:false,
-                message:"User not found",
-            });
-        }
-        
-        //delete profile
-        await Profile.findByIdAndDelete(user.additionalDetails);
-      //  console.log("hello  ");
-        //TODO: HW uneroll user from all enroll courses
-        await User.findByIdAndDelete(id);
-		res.status(200).json({
-			success: true,
-			message: "User deleted successfully",
+exports.deleteAccount = async (req, res) => {
+	try {
+	  const id = req.user.id;
+  
+	  const user = await User.findById(id);
+	  if (!user) {
+		return res.status(404).json({
+		  success: false,
+		  message: "User not found",
 		});
-
-    }
-    catch(error){
-        return res.status(500).json({
-            success:false,
-            message:"User cannot be deleted successfully",
-        });
-    }
-};
-
+	  }
+  
+	  await Profile.findByIdAndDelete(user.additionalDetails);
+  
+	  for (const courseId of user.courses) {
+		await Course.findByIdAndUpdate(
+		  courseId,
+		  { $pull: { studentsEnrolled: id } },
+		  { new: true }
+		);
+	  }
+  
+	  await CourseProgress.deleteMany({ userId: id });
+  
+	  await User.findByIdAndDelete(id);
+  
+	  return res.status(200).json({
+		success: true,
+		message: "User deleted successfully",
+	  });
+	} catch (error) {
+	  console.log(error);
+	  return res.status(500).json({
+		success: false,
+		message: "User cannot be deleted successfully",
+	  });
+	}
+  };
+  
 
 exports.getAllUserDetails = async (req,res) =>{
     try{

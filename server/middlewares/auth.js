@@ -4,13 +4,8 @@ const User = require('../models/User');
 
 //auth
 exports.auth = async (req,res,next)=>{
-    try{
-        //extract token
-        
-        const token = req.cookies.token
-                      || req.body.token
-                      || req.header("Authorisation")?.replace("Bearer ", "");
-        //if token missing, then return response
+    try{      
+        const token = req.cookies.token || req.body.token || req.header("Authorisation")?.replace("Bearer ", "");
         if(!token){
             return res.status(401).json({
                 success:false,
@@ -18,14 +13,12 @@ exports.auth = async (req,res,next)=>{
             });
         }
     //   console.log("token verify ",token);
-        //verify the token
         try{
             const decode =  jwt.verify(token, process.env.JWT_SECRET);
            // console.log("decode=",decode);
             req.user = decode;
         }
         catch(error){
-            //verification - issue
             return res.status(401).json({
                 success:false,
                 message:'token is invalid',
@@ -45,8 +38,7 @@ exports.auth = async (req,res,next)=>{
 
 //isStudent
 exports.isStudent = async (req,res,next)=>{
-    try{
-        
+    try{ 
        // console.log(req.user.accountType);
         if(req.user.accountType !== "Student"){
             return res.status(401).json({
