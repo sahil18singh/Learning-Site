@@ -53,11 +53,12 @@ exports.sendOTP = async (req,res)=>{
 
 
         //return response successful
-        res.status(200).json({
-            success:true,
+        return res.status(200).json({
+            success: true,
             message: 'OTP sent successfully!',
             otp,
-        })
+        });
+        
     }
     catch(error){
         console.log(error);
