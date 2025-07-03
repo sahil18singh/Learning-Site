@@ -57,19 +57,38 @@ exports.deleteAccount = async (req, res) => {
 	  }
   
 	  await Profile.findByIdAndDelete(user.additionalDetails);
-  
-	  for (const courseId of user.courses) {
-		await Course.findByIdAndUpdate(
-		  courseId,
-		  { $pull: { studentsEnrolled: id } },
-		  { new: true }
-		);
+	  
+	  if(user.accountType==="Student"){
+			for (const courseId of user.courses) {
+				await Course.findByIdAndUpdate(
+				courseId,
+				{ $pull: { studentsEnrolled: id } },
+				{ new: true }
+				);
+			}
+			await CourseProgress.deleteMany({ userId: id });  
 	  }
-  
-	  await CourseProgress.deleteMany({ userId: id });
-  
+	  
+	  if(user.accountType==="Instructor"){
+		for (const courseId of user.courses) {
+			const course = await Course.findById(courseId);
+		//	console.log("hi");
+			if (course) {
+			  for (const studentId of course.studentsEnrolled) {
+				await User.findByIdAndUpdate(
+				  studentId,
+				  { $pull: { courses: courseId } }
+				);
+			  }
+
+			  await CourseProgress.deleteMany({ courseId: courseId });
+
+			  await Course.findByIdAndDelete(courseId);
+			}
+		  }		  
+  	  }
+	  
 	  await User.findByIdAndDelete(id);
-  
 	  return res.status(200).json({
 		success: true,
 		message: "User deleted successfully",
