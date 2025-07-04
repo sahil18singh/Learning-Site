@@ -6,10 +6,8 @@ const Course = require("../models/Course");
 
 exports.createCategory = async (req,res) =>{
     try{
-        //fetch data
         const {name,description} = req.body;
 
-        //validation
         if(!name || !description){
             return res.status(400).json({
                 success:false,
@@ -17,14 +15,12 @@ exports.createCategory = async (req,res) =>{
             })
         }
 
-        //create entry in DB
         const CategoryDetails = await Category.create({
             name:name,
             description:description,
         });
         console.log(CategoryDetails);
 
-        // return response
         return res.status(200).json({
             success:true,
             message:"Category created successfully",
@@ -38,7 +34,6 @@ exports.createCategory = async (req,res) =>{
     }
 };
 
-//getAlltags handler function
 
 exports.showAllCategories = async (req,res)=>{
     try{
@@ -65,18 +60,16 @@ exports.showAllCategories = async (req,res)=>{
 exports.categoryPageDetails = async (req, res) => {
 	try {
 		const { categoryId } = req.body;
+
         console.log("categoryid: :",categoryId);
-		// Get courses for the specified category
-		const selectedCategory = await Category.findById(categoryId)          //populate instuctor and rating and reviews from courses
-			.populate({path:"courses",match:{status:"Published"},populate:([{path:"instructor"},{path:"ratingAndReviews"}])})
-			.exec();
+		
+		const selectedCategory = await Category.findById(categoryId).populate({path:"courses",match:{status:"Published"},populate:([{path:"instructor"},{path:"ratingAndReviews"}])}).exec();
+
 		 console.log(selectedCategory);
 		// Handle the case when the category is not found
 		if (!selectedCategory) {
 			console.log("Category not found.");
-			return res
-				.status(404)
-				.json({ success: false, message: "Category not found" });
+			return res.status(404).json({ success: false, message: "Category not found" });
 		}
 		// Handle the case when there are no courses
 		if (selectedCategory.courses.length === 0) {
@@ -102,7 +95,7 @@ exports.categoryPageDetails = async (req, res) => {
 		const allCategories = await Category.find().populate({path:"courses",match:{status:"Published"},populate:([{path:"instructor"},{path:"ratingAndReviews"}])});
 		const allCourses = allCategories.flatMap((category) => category.courses);
 		const mostSellingCourses = allCourses
-			.sort((a, b) => b.sold - a.sold)
+			.sort((a, b) => b.studentsEnrolled.length - a.studentsEnrolled.length)
 			.slice(0, 10);
 
 		res.status(200).json({
