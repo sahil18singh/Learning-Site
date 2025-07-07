@@ -63,16 +63,20 @@ const NestedView = ({handelChangeEditSectionName}) => {
                                 }}/>
                             </button>
                             <button>
-                                <VscTrash className='text-lg text-richblack-50' onClick={()=>{
-                                    setConfirmationModal({
-                                        text1: "Delete this Section?",
-                                        text2: "All the lectures in this section will be deleted",
-                                        btn1Text: "Delete",
-                                        btn2Text : "Cancel",
-                                        btn1Handler:()=>handeldeleteSection(section._id),
-                                        btn2Handler:()=>setConfirmationModal(null),
-                                    })
-                                }}/>
+                            <VscTrash className='text-lg text-richblack-50' onClick={() => {
+  setConfirmationModal({
+    text1: "Delete this Section?",
+    text2: "All the lectures in this section will be deleted",
+    btn1Text: "Delete",
+    btn2Text : "Cancel",
+    btn1Handler: async () => {
+      await handeldeleteSection(section._id); 
+      setConfirmationModal(null);            
+    },
+    btn2Handler: () => setConfirmationModal(null),
+  })
+}}/>
+
                             </button>
                             <span className="font-medium text-richblack-300">|</span>
                             <VscTriangleDown className='text-lg text-richblack-50' />

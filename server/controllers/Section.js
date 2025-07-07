@@ -4,10 +4,8 @@ const SubSection = require("../models/SubSection")
 
 exports.createSection = async (req,res)=>{
     try {
-		// Extract the required properties from the request body
 		const { sectionName, courseId } = req.body;
 
-		// Validate the input
 		if (!sectionName || !courseId) {
 			return res.status(400).json({
 				success: false,
@@ -23,10 +21,9 @@ exports.createSection = async (req,res)=>{
             });
         }
 
-		// Create a new section with the given name
 		const newSection = await Section.create({ sectionName });
 
-		// Add the new section to the course's content array
+		// add the new section to the course's content array
 		const updatedCourse = await Course.findByIdAndUpdate(
 			courseId,
 			{
@@ -66,7 +63,6 @@ exports.updateSection = async (req,res)=>{
         //data input
         const {sectionName,sectionId,courseId} = req.body;
 
-        //data validation
         if(!sectionName || !sectionId){
             return res.status(400).json({
                 success:false,
@@ -104,26 +100,27 @@ exports.updateSection = async (req,res)=>{
 
 exports.deleteSection = async (req,res)=>{
     try{
-        //get ID - assuming that we are sending ID in params
         const {sectionId,courseId} = req.body;
+     //  console.log(sectionId)
         await Course.findByIdAndUpdate(courseId,{
             $pull:{
                 courseContent:sectionId,
             }
         })
-
+        
         const section = await Section.findById(sectionId)
         if(!section){
+            
             return res.status(404).json({
                 success:false,
                 message:"Section not found",
             })
         }
-
+        
         await SubSection.deleteMany({_id:{$in:section.subSection}});
 
         await Section.findByIdAndDelete(sectionId)
-
+        
         const course = await Course.findById(courseId).populate({
             path:"courseContent",
             populate:{
@@ -131,11 +128,12 @@ exports.deleteSection = async (req,res)=>{
             }
         })
         .exec()
-
+        console.log(course)
         return res.status(200).json({
-            succss:true,
+           // console.log("dh--gdg111")
+            success:true,
             message:"Section deleted",
-            data:"Course",
+            data:course,
         })
 
     }
