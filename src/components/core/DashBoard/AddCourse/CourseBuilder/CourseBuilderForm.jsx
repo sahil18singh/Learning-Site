@@ -110,7 +110,8 @@ const CourseBuilderForm = () => {
                 </div>
             </form>
                     {console.log("section.....",course.courseContent.length)}
-            {course.courseContent.length > 0 && (
+                    {course?.courseContent?.length > 0 && (
+
                 <NestedView
                     handelChangeEditSectionName={handelChangeEditSectionName}
                     courseContent={course.courseContent}

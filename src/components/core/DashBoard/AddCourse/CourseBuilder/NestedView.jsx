@@ -34,6 +34,7 @@ const NestedView = ({handelChangeEditSectionName}) => {
 
     const handeldeleteSubSection = async(subSectionId,sectionId)=>{
         const result = await deleteSubSection({subSectionId,courseId:course._id,sectionId},token);
+       // console.log("dhgdw---",result);
         if(result){
             dispatch(setCourse(result));
             setConfirmationModal(null);
@@ -64,18 +65,18 @@ const NestedView = ({handelChangeEditSectionName}) => {
                             </button>
                             <button>
                             <VscTrash className='text-lg text-richblack-50' onClick={() => {
-  setConfirmationModal({
-    text1: "Delete this Section?",
-    text2: "All the lectures in this section will be deleted",
-    btn1Text: "Delete",
-    btn2Text : "Cancel",
-    btn1Handler: async () => {
-      await handeldeleteSection(section._id); 
-      setConfirmationModal(null);            
-    },
-    btn2Handler: () => setConfirmationModal(null),
-  })
-}}/>
+                                setConfirmationModal({
+                                    text1: "Delete this Section?",
+                                    text2: "All the lectures in this section will be deleted",
+                                    btn1Text: "Delete",
+                                    btn2Text : "Cancel",
+                                    btn1Handler: async () => {
+                                    await handeldeleteSection(section._id); 
+                                    setConfirmationModal(null);            
+                                    },
+                                    btn2Handler: () => setConfirmationModal(null),
+                                })
+                                }}/>
 
                             </button>
                             <span className="font-medium text-richblack-300">|</span>
@@ -100,16 +101,24 @@ const NestedView = ({handelChangeEditSectionName}) => {
                                                 }/>
                                             </button>
                                             <button>
-                                            <VscTrash className='text-lg text-richblack-50 z-50' size={21} onClick={() => {
+                                            <VscTrash
+                                                className="text-lg text-richblack-50 z-50"
+                                                size={21}
+                                                onClick={() => {
                                                     setConfirmationModal({
-                                                        text1: "Delete this Sub-Section?",
-                                                        text2: "Selected lecture will be deleted",
-                                                        btn1Text: "Delete",
-                                                        btn2Text:"Cancel",
-                                                        btn1Handler: () => handeldeleteSubSection(subSection._id,section._id),
-                                                        btn2Handler: () => setConfirmationModal(null),
-                                                    })
-                                                }} />
+                                                    text1: "Delete this Sub-Section?",
+                                                    text2: "Selected lecture will be deleted",
+                                                    btn1Text: "Delete",
+                                                    btn2Text: "Cancel",
+                                                    btn1Handler: async () => {
+                                                        await handeldeleteSubSection(subSection._id, section._id); 
+                                                        setConfirmationModal(null);                              
+                                                    },
+                                                    btn2Handler: () => setConfirmationModal(null),
+                                                    });
+                                                }}
+                                                />
+
                                             </button>
                                         </div>
                                     </div>

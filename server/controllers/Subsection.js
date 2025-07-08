@@ -134,7 +134,7 @@ exports.updateSubSection = async(req,res)=>{
 //delete subSection
 exports.deleteSubSection = async (req,res)=>{
     try{
-        const {subSectionId,sectionId} = req.body
+        const {subSectionId,courseId,sectionId} = req.body
         await Section.findByIdAndUpdate(
             {_id:sectionId},
             {
@@ -152,12 +152,19 @@ exports.deleteSubSection = async (req,res)=>{
             })
         }
 
-        const updatedSection = await Section.findById(sectionId).populate("subSection")
-
+        //const updatedSection = await Section.findById(sectionId).populate("subSection")
+       // console.log("updated SubSection---",updatedSection);
+       const course = await Course.findById(courseId).populate({
+                   path:"courseContent",
+                   populate:{
+                       path:"subSection"
+                   }
+               })
+               .exec()
         return res.json({
             success:true,
             message:"SubSection deleted successfully",
-            data:updatedSection,
+            data:course,
         })
     }
     catch(error){
