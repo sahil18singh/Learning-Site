@@ -96,7 +96,7 @@ const NestedView = ({handelChangeEditSectionName}) => {
                                             <button>
                                                 <VscEdit className='text-lg text-richblack-50 z-50' onClick={
                                                     ()=>{
-                                                        setEditSubSection(subSection);
+                                                        setEditSubSection({ ...subSection, sectionId: section._id });
                                                     }
                                                 }/>
                                             </button>

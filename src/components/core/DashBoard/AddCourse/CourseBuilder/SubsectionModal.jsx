@@ -47,7 +47,7 @@ const SubsectionModal = ({
     const handelEditSubsection = async (data) => {
         const currentValues = getValues();
         const formData = new FormData();
-        formData.append("SubsectionId", modalData._id);
+        formData.append("subSectionId", modalData._id);
         if (currentValues.lecture !== modalData.title) {
             formData.append("title", data.lecture);
         }
@@ -55,9 +55,9 @@ const SubsectionModal = ({
             formData.append("description", data.lectureDesc);
         }
         if (currentValues.lectureVideo !== modalData.videoUrl) {
-        formData.append("videoFile", data.lectureVideo);
+            formData.append("videoFile", data.lectureVideo);
         }
-
+        formData.append("sectionId",modalData.sectionId);
         formData.append("courseId", course._id);
         // console.log("formdata", [...formData]);
         const result = await updateSubSection(formData, token);

@@ -69,15 +69,19 @@ exports.createSubSection = async (req,res)=>{
 
 exports.updateSubSection = async(req,res)=>{
     try{
-        const {sectionId,subSectionId,title,description} = req.body
+        
+        const {sectionId,subSectionId,title,description,courseId} = req.body
+       
         if (!sectionId || !subSectionId) {
+            
             return res.status(400).json({
                 success: false,
                 message: "Missing sectionId or subSectionId",
             });
         }
+        // console.log("hi---");
         const subSection = await SubSection.findById(subSectionId)
-
+        
         if(!subSection){
             return res.status(404).json({
                 success:false,
@@ -93,6 +97,7 @@ exports.updateSubSection = async(req,res)=>{
         subSection.description = description ?? subSection.description;
 
         // if(req.files && req.files.video !== undefined){
+        console.log("uauahs---",req.files?.video)
         if(req.files?.video){
             const video = req.files.video
             const uploadDetails = await uploadImageToCloudinary(
@@ -113,11 +118,18 @@ exports.updateSubSection = async(req,res)=>{
             });
         }
         console.log("updated section",updatedSection)
-
+        const course = await Course.findById(courseId)
+                .populate({
+                    path:"courseContent",
+                    populate:{
+                        path:"subSection",
+                    }
+                })
+                .exec()
         return res.json({
             success:true,
             message:"Section updated successfully",
-            data:updatedSection,
+            data:course,
         })
     }
     catch(error){

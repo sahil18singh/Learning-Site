@@ -62,7 +62,7 @@ router.post("/updateSection",auth,isInstructor,updateSection)
 router.delete("/deleteSection",auth,isInstructor,deleteSection)
 
 //Edit Sub Section
-router.put("/updateSubSection",auth,isInstructor,updateSubSection)
+router.post("/updateSubSection",auth,isInstructor,updateSubSection)
 
 //Delete Sub Section
 router.delete("/deleteSubSection",auth,isInstructor,deleteSubSection)
