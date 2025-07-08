@@ -82,7 +82,6 @@ exports.deleteAccount = async (req, res) => {
 			  }
 
 			  await CourseProgress.deleteMany({ courseId: courseId });
-
 			  await Course.findByIdAndDelete(courseId);
 			}
 		  }		  
@@ -108,7 +107,7 @@ exports.getAllUserDetails = async (req,res) =>{
         //get id
         const id=req.user.id;
 
-        //validation and get user details
+        
         const userDetails = await  User.findById(id).populate("additionalDetails").exec();
         //return response
         return res.status(200).json({
@@ -128,35 +127,34 @@ exports.getAllUserDetails = async (req,res) =>{
 
 exports.updateDisplayPicture = async (req,res)=>{
     try {
-
 		const id = req.user.id;
-	const user = await User.findById(id);
-	if (!user) {
-		return res.status(404).json({
-            success: false,
-            message: "User not found",
-        });
-	}
-	const image = req.files.pfp;
-	if (!image) {
-		return res.status(404).json({
-            success: false,
-            message: "Image not found",
-        });
-    }
-	const uploadDetails = await uploadImageToCloudinary(
-		image,
-		process.env.FOLDER_NAME
-	);
-	console.log(uploadDetails);
+		const user = await User.findById(id);
+		if (!user) {
+			return res.status(404).json({
+				success: false,
+				message: "User not found",
+			});
+		}
+		const image = req.files.pfp;
+		if (!image) {
+			return res.status(404).json({
+				success: false,
+				message: "Image not found",
+			});
+		}
+		const uploadDetails = await uploadImageToCloudinary(
+			image,
+			process.env.FOLDER_NAME
+		);
+		console.log(uploadDetails);
 
-	const updatedImage = await User.findByIdAndUpdate({_id:id},{image:uploadDetails.secure_url},{ new: true });
+		const updatedImage = await User.findByIdAndUpdate({_id:id},{image:uploadDetails.secure_url},{ new: true });
 
-    res.status(200).json({
-        success: true,
-        message: "Image updated successfully",
-        data: updatedImage,
-    });
+		res.status(200).json({
+			success: true,
+			message: "Image updated successfully",
+			data: updatedImage,
+		});
 		
 	} catch (error) {
 		return res.status(500).json({

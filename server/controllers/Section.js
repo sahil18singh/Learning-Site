@@ -81,8 +81,7 @@ exports.updateSection = async (req,res)=>{
             }
         })
         .exec()
-
-        //return response
+       
         return res.status(200).json({
             success:true,
             messgae:'Success updated Successfully',

@@ -13,7 +13,6 @@ const CourseBuilderForm = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const { course } = useSelector((state) => state.course);
-
     const gonext = () => {
         if (course.courseContent.length > 0) {
             if (course.courseContent.some((section) => section.subSection.length > 0)) {
@@ -64,6 +63,7 @@ const CourseBuilderForm = () => {
         }
         setEditSectionName(sectionId);
         setValue('sectionName', sectionName);
+        
     };
 
     return (

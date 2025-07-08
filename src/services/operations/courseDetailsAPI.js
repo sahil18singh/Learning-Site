@@ -193,7 +193,7 @@ export const updateSection = async (data,token)=>{
             throw new Error("Could not update Section");
         }
         toast.success("Course Section Updated");
-        result = response?.data?.updatedCourse;
+        result = response?.data?.data;
         console.log("Update API RESULT............", result);
     }
     catch(error){
