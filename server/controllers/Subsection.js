@@ -97,9 +97,9 @@ exports.updateSubSection = async(req,res)=>{
         subSection.description = description ?? subSection.description;
 
         // if(req.files && req.files.video !== undefined){
-        console.log("uauahs---",req.files?.video)
-        if(req.files?.video){
-            const video = req.files.video
+        console.log("uauahs---",req.files?.videoFile)
+        if(req.files?.videoFile){
+            const video = req.files.videoFile
             const uploadDetails = await uploadImageToCloudinary(
                 video,
                 process.env.FOLDER_NAME
