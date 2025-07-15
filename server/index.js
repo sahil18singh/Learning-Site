@@ -21,12 +21,24 @@ database.connect();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://learning-site-git-main-pirates-8f62c61a.vercel.app"
+  ];
+  
+  app.use(
     cors({
-        origin:"http://localhost:3000",
-        credentials: true,
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true,
     })
-)
+  );
+  
 
 app.use(
     fileUpload({
