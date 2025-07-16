@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { getInstructorDashboard } from '../../../../services/operations/profileAPi'
-import { fetchInstructorCourses } from '../../../../services/operations/courseDetailsAPI'
+import { getInstructorDashboard } from '../../../../services/operations/profileAPi.js'
+import { fetchInstructorCourses } from '../../../../services/operations/courseDetailsAPI.js'
 import DashboardChart from './DashboardChart.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
