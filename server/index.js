@@ -22,9 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://learning-site-f3f1beg3f-pirates-8f62c61a.vercel.app",  
-  "https://learning-site-git-main-pirates-8f62c61a.vercel.app",  
+  "http://localhost:3000", 
   "https://learning-site.vercel.app"                              
 ];
 
