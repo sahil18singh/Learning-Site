@@ -149,7 +149,7 @@ export async function getInstructorDashboard(token,dispatch){
       console.log("BEFORE Calling BACKEND API FOR INSTRUCTOR DASHBOARD");
       const response = await apiConnector(
         "GET",
-        'http://localhost:4000/api/v1/profile//instructorDashboard',
+        profileEndpoints.GET_ALL_INSTRUCTOR_DASHBOARD_DETAILS_API,
         null,
         {
           Authorisation: `Bearer ${token}`,
@@ -173,3 +173,4 @@ export async function getInstructorDashboard(token,dispatch){
     // toast.dismiss(toastId)
     return result
   }
+
