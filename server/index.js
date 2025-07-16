@@ -22,22 +22,26 @@ app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-    "http://localhost:3000",
-    "https://learning-site-f3f1beg3f-pirates-8f62c61a.vercel.app"
-  ];
+  "http://localhost:3000",
+  "https://learning-site-f3f1beg3f-pirates-8f62c61a.vercel.app",  // maybe old
+  "https://learning-site-git-main-pirates-8f62c61a.vercel.app",   // ✅ this one
+  "https://learning-site.vercel.app"                              // (optional) future production
+];
+
   
-  app.use(
-    cors({
-      origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
-      credentials: true,
-    })
-  );
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
   
 
 app.use(
