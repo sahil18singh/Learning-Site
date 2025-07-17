@@ -57,12 +57,19 @@ app.use("/api/v1/course",courseRoutes);
 app.use("/api/v1/payment",paymentRoutes);
 app.use("/api/v1/contact",contactUsRoute);
 
+app.get("/ping", (req, res) => {
+  res.status(200).send("Backend is awake!");
+});
+
 app.get("/",(req,res)=>{
     return res.json({
         success:true,
         message:'Your server is running...'
     });
 });
+
+
+
 
 app.listen(PORT, ()=>{
     console.log(`App is running at ${PORT}`);
