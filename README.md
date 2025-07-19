@@ -56,7 +56,7 @@
 - Node.js
 - Express.js
 - MongoDB (via Mongoose)
-- Multer (file uploads)
+- Express-Fileupload (file uploads)
 - JWT for authentication
 - Nodemailer (for OTP)
 
