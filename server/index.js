@@ -44,6 +44,7 @@ app.use(cors({
 
 app.use(
     fileUpload({
+        limits: { fileSize: 1024 * 1024 * 1024 },
         useTempFiles:true,
         tempFileDir:"/tmp",
     })
