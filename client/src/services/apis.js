@@ -1,5 +1,5 @@
 const BASE_URL = "https://learning-site-4wl3.onrender.com/api/v1"
-
+//const BASE_URL = "http://localhost:4000/api/v1"
 // CATAGORIES API
 export const categories = {
     CATEGORIES_API: BASE_URL + "/course/showAllCategories",
