@@ -50,7 +50,7 @@
 - React.js
 - Axios
 - React Router DOM
-- Redux or Context API
+- React Redux
 
 ### Backend
 - Node.js
