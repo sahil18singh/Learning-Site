@@ -62,7 +62,7 @@ exports.contactUsEmail = (
 </head>
 <body>
     <div class = "container">
-        <a href=""><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="Learning-Site"></a>
+        <a href="https://learning-site-wheat.vercel.app/"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="Learning-Site"></a>
         <div class="message">Contact Form Confirmation</div>
         <div class="body">
             <p>Dear ${firstname} ${lastname},</p>

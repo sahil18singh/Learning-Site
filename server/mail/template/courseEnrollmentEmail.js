@@ -57,14 +57,14 @@ exports.courseEnrollmentEmail = (courseName,name) =>{
 </head>
 <body>
     <div class = "container">
-        <a href="https://studynotion-edtech-project.vercel.app"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="Sahil_Learn Logo"></a>
+        <a href="https://learning-site-wheat.vercel.app/"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png" alt="Sahil_Learn Logo"></a>
         <div class="message">Course Regestration Confirmation</div>
         <div class="body">
             <p>Dear ${name},</p>
             <p>You have successfully registered for the course <span class="highlight">${courseName}</span>.We
                 are excited to have you as a participant!</p>
             <p>Please log in to your learning dashboard to access the course materials and start your learning journey.</p> 
-            <a class="cta" href="https://studynotion-edtech-project.vercel.app/dashboard">Go to Dashboard</a>  
+            <a class="cta" href="https://learning-site-wheat.vercel.app/">Go to Dashboard</a>  
         </div>
         <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a href="mailto:sahilsingh1892006@gmail.com">sahilsingh1892006@gmail.com</a> . We are here to help!</div>
     </div>
